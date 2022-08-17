@@ -90,6 +90,7 @@
     /* Handle redirect from Implicit Flow */
     if (location.hash.substring(1, 10) === 'id_token=') {
       const jwt = location.hash.substring(10);
+      history.replaceState(null, '', ' '); // Clear the URL hash
       const payload = parseJwtPayload(jwt);
       if (sessionStorage.getItem('nonce') !== payload.nonce) {
         alert('Invalid nonce');
@@ -102,6 +103,7 @@
     /* Handle redirect from Authorization Code Flow with PKCE */
     if (location.search !== '') {
       const { code, state } = Object.fromEntries(new URLSearchParams(location.search));
+      history.replaceState(null, '', location.pathname); // Clear the URL search params
       if (sessionStorage.getItem('state') !== state) {
         alert('Invalid state');
       }
